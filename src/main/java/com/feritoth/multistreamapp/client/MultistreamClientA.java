@@ -83,7 +83,7 @@ public class MultistreamClientA {
 					if (allElligibleAmounts.isEmpty()){
 						//No values found for procession, client will terminate gracefully
 						LOGGER.info("No amount values were found for processing, client will thus exit gracefully...");
-						return MultistreamProcessor.createSpecialXMLDataRecord(appTermKeyword);
+						return MultistreamProcessor.createSpecialXMLDataRecord(appTermKeyword, System.currentTimeMillis());
 					} else {
 						//terminate the client after sending over the processed values to the server
 						LOGGER.info("Quit command detected, shutting down client after transmission of the processed values...");

@@ -95,22 +95,23 @@ public class MultistreamProcessor {
 		
 	/* Static method used for creating the final data format to be passed over to the server */
 	private static String createDataRecord(List<Double> matchingAmounts) throws JsonProcessingException {
-		String finalNumericalInput = convertDataRecordToXMLLine(matchingAmounts.get(0));
+		long currentTime = System.currentTimeMillis();
+		String finalNumericalInput = convertDataRecordToXMLLine(matchingAmounts.get(0), currentTime);
 		for (int i = 1; i < matchingAmounts.size(); i++){
-			finalNumericalInput += "\n" + convertDataRecordToXMLLine(matchingAmounts.get(i));
+			finalNumericalInput += "\n" + convertDataRecordToXMLLine(matchingAmounts.get(i), currentTime);
 		}
 		return finalNumericalInput;
 	}
 
 	/* Static XML generator method for the amount list */
-	private static String convertDataRecordToXMLLine(Double amount) throws JsonProcessingException {
-		CoreData newCoreRecord = new CoreData(new Timestamp(System.currentTimeMillis()), amount);
+	private static String convertDataRecordToXMLLine(Double amount, long currentTime) throws JsonProcessingException {
+		CoreData newCoreRecord = new CoreData(new Timestamp(currentTime), amount);
 		return generateXMLfromCoreObject(newCoreRecord);
 	}
 		
 	/* Static XML generator method for the halt message entry */
-	public static String createSpecialXMLDataRecord(String haltMessage) throws JsonProcessingException {
-		QuitCommand quitRecord = new QuitCommand(new Timestamp(System.currentTimeMillis()), haltMessage);
+	public static String createSpecialXMLDataRecord(String haltMessage, long currentTime) throws JsonProcessingException {
+		QuitCommand quitRecord = new QuitCommand(new Timestamp(currentTime), haltMessage);
 		return generateXMLfromCoreObject(quitRecord);
 	}
 
@@ -170,9 +171,9 @@ public class MultistreamProcessor {
 		String finalData = null;
 		String finalAmounts = MultistreamProcessor.convertAmountValues(allElligibleAmounts);
 		if (StringUtils.isBlank(finalAmounts)){
-			finalData = MultistreamProcessor.createSpecialXMLDataRecord(appTermKeyword);
+			finalData = MultistreamProcessor.createSpecialXMLDataRecord(appTermKeyword, System.currentTimeMillis());
 		} else {
-			finalData = MultistreamProcessor.convertAmountValues(allElligibleAmounts) + "\n" + MultistreamProcessor.createSpecialXMLDataRecord(appTermKeyword);							
+			finalData = MultistreamProcessor.convertAmountValues(allElligibleAmounts) + "\n" + MultistreamProcessor.createSpecialXMLDataRecord(appTermKeyword, System.currentTimeMillis());							
 		}
 		LOGGER.info("The data set to be sent out to the server is:\n" + finalData);
 		return finalData;
