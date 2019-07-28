@@ -88,7 +88,7 @@ public class MultistreamProcessor {
 			Double numericalAmount = Double.valueOf(stringAmount);
 			return numericalAmount;
 		} catch (NumberFormatException e) {
-			LOGGER.info("Unable to convert the given amount " + stringAmount + " as it is not a valid number unfortunately...");
+			LOGGER.warn("Unable to convert the given amount " + stringAmount + " as it is not a valid number unfortunately...");
 			return null;
 		}
 	}
