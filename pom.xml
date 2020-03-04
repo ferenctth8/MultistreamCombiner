@@ -16,7 +16,7 @@
 		<slf4j.version>1.5.6</slf4j.version>
 		<comlog.version>1.1.1</comlog.version>
 		<woodstox.version>4.1.4</woodstox.version>
-		<jackson.library>2.9.4</jackson.library>
+		<jackson.library>2.10.3</jackson.library>
 		<stringutils.version>3.8.1</stringutils.version>
 	</properties>
 
